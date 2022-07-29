@@ -1,10 +1,31 @@
 rm(list=ls())
 
-library(dplyr)
-library(ggplot2)
-library(tidyr)
-library(data.table)
-library(ggtern)
+if (!require(dplyr)) {
+    install.packages("dplyr")
+    library(dplyr)
+}
+if (!require(ggplot2)) {
+    install.packages("ggplot2")
+    library(ggplot2)
+}
+if (!require(tidyr)) {
+    install.packages("tidyr")
+    library(tidyr)
+}
+if (!require(data.table)) {
+    install.packages("data.table")
+    library(data.table)
+}
+# if (!require(nefosl/ggtern)) {
+    devtools::install_github("nefosl/ggtern")
+    library(ggtern)
+# }
+
+# library(dplyr)
+# library(ggplot2)
+# library(tidyr)
+# library(data.table)
+# library(ggtern)
 
 #Original data comes from http://researchbriefings.files.parliament.uk/documents/CBP-8647/1918-2017election_results_by_pcon.xlsx
 #but need better R-based Excel wrangling than I posses to read that in tidily, so did a little pre-processing within Excel (sorry)
@@ -402,14 +423,15 @@ ggtern()+
 dev.off()
 
 #Constituency-specfic path
-const <- "SHEFFIELD HALLAM"
+# const <- "SHEFFIELD HALLAM"
+const <- "EASTLEIGH"
 
-tiff("Outputs/HallamTern.tiff", units="in", width=8, height=8, res=500)
+tiff("Outputs/EastleighTern.tiff", units="in", width=8, height=8, res=500)
 ggtern()+
   geom_polygon(data=background, aes(x, y, z,fill=Col), alpha=0.1)+
   theme_hidegrid()+
   theme_showarrows()+
-  scale_fill_manual(values=c("#0087dc", "#fdbb30","#d50000"), guide=FALSE)+
+  scale_fill_manual(values=c("#0087dc","#d50000", "#fdbb30"), guide=FALSE)+
   geom_segment(aes(x=0.5, xend=1/3, y=0.5, yend=1/3, z=0, zend=1/3), colour="white")+
   geom_segment(aes(x=0.5, xend=1/3, y=0, yend=1/3, z=0.5, zend=1/3), colour="white")+
   geom_segment(aes(x=0, xend=1/3, y=0.5, yend=1/3, z=0.5, zend=1/3), colour="white")+
